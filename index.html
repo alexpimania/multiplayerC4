@@ -77,6 +77,14 @@
       </div>
     </div>
     <script>
+      function opponentScore(row,column) {
+        var rowElement = document.getElementById("row"+row)
+        rowElement.children[column].style.backgroundColor = "red" //I forgot xD
+      }
+      function selfScore(row,column) {
+        var rowElement = document.getElementById("row"+row)
+        rowElement.children[column].style.backgroundColor = "green" //Myself
+      }
     </script>
   </body>
 </html>
