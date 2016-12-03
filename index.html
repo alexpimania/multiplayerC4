@@ -11,79 +11,28 @@
     </style>
   </head>
   <body>
-    <div id="rows">
-      <div id="row1" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row2" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row3" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row4" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row5" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row6" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-      <div id="row7" class="row">
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-        <div class="column"></div>
-      </div>
-    </div>
     <script>
-      function opponentScore(row,column) {
-        var rowElement = document.getElementById("row"+row)
-        rowElement.children[column].style.backgroundColor = "red" //I forgot xD
+      var $_GET = (function() {
+        var obj = {}
+        var split_tokens = location.search.substring(1,location.search.length).split("&")
+        for (var token in split_tokens) {
+            var token = split_tokens[token].split("=")
+            var key = token[0]
+            var value = token[1]
+            obj[key] = value;
+        }
+        obj.get=function(get,fallback){
+          if(this[g]==undefined){return fallback}
+          return this[g]
+        }
+        return obj
+      }());
+      var id = $_GET["id"];
+      if (!id) {
+        //You are the first player
       }
-      function selfScore(row,column) {
-        var rowElement = document.getElementById("row"+row)
-        rowElement.children[column].style.backgroundColor = "green" //Myself
+      else {
+        //Either you typed in a random id or you are not the first player
       }
     </script>
   </body>
