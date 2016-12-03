@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connect 4</title>
+    <style>
+      .row > .column {
+        width: 50;
+        height: 50;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      var $_GET = (function() {
+        var obj = {}
+        var split_tokens = location.search.substring(1,location.search.length).split("&")
+        for (var token in split_tokens) {
+            var token = split_tokens[token].split("=")
+            var key = token[0]
+            var value = token[1]
+            obj[key] = value;
+        }
+        obj.get=function(get,fallback){
+          if(this[g]==undefined){return fallback}
+          return this[g]
+        }
+        return obj
+      }());
+      var request;
+      if (window.XMLHttpRequest) {
+        request = new XMLHttpRequest();
+      }
+      else {
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+      var id = $_GET["id"];
+      if (!id) {
+        //You are the first player
+      }
+      else {
+        //Either you typed in a random id or you are not the first player
+        request.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText == "true") {
+              //It exists
+            }
+            else if (this.responseText == "false") {
+              //Random id, you are the first player
+            }
+          }
+        };
+        request.open("POST", "check_ids.py", true); //Send a POST request to "check_ids.py" with the message id.
+        request.send(id);
+      }
+    </script>
+  </body>
+</html>
