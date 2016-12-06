@@ -21,7 +21,7 @@ class WShandler(tornado.websocket.WebSocketHandler):
         valueArg = args["value"]
         
         if functionArg == "createSession":
-            
+            id = generateId() #TODO
         elif function == "joinSession":
 
         elif function == "sendMessage":
