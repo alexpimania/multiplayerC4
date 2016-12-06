@@ -24,17 +24,12 @@
         while (!username) {
           username = prompt("What is your username?","");
         }
-        var password = prompt("What is your password?","");
-        while (!password) {
-          password = prompt("What is your password?","");
-        }
         var session;
         function onOpen(event) {
           console.log("websocket opened");
           var data = {
             "function": "createSession",
-            "value": username,
-            "password": password //Should encrypt soon
+            "value": username
           };
           websocket.send(JSON.stringify(data))
         }
