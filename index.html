@@ -72,8 +72,6 @@
       function onError(event) {
         //event.data
       }
-
-      window.addEventListener("load", init, false);
     </script>
   </head>
   <body>
@@ -107,6 +105,7 @@
         return obj
       }());
       var id = $_GET["id"];
+      var socket = createWebSocket();
       if (!id) {
         //You are the first player
         //Get id from server todo
