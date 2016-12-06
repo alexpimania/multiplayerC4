@@ -33,6 +33,7 @@
 
         function onClose(event) {
           console.log("websocket closed");
+          alert("You are disconnected from the server :(")
         }
 
         function onMessage(event) {
@@ -41,7 +42,14 @@
           if (d["function"] == "sessionId") {
             session = d["value"]
           }
-          if (d["function"] == "usererror") {
+          else if (d["function"] == "updateBoard") {
+            //TODO
+          }
+          else if (d["function"] == "newMessage") {
+            var msg = d["value"]
+            var user = d["username"]
+          }
+          else if (d["function"] == "usererror") {
             alert(d["value"]);
             username = prompt("What is your username?","");
             var data = {
