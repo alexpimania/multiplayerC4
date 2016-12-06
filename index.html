@@ -11,70 +11,86 @@
       }
     </style>
     <script>
-        var wsUri = "ws://mpcn.com/";
-        function createWebSocket() {
-          var websocket = new WebSocket(wsUri);
-          websocket.onopen = function(evt) {onOpen(evt)};
-          websocket.onclose = function(evt) {onClose(evt)};
-          websocket.onmessage = function(evt) {onMessage(evt)};
-          websocket.onerror = function(evt) {onError(evt)};
-          return websocket
+      var wsUri = "ws://mpcn.com/";
+      function createWebSocket() {
+        var websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) {onOpen(evt)};
+        websocket.onclose = function(evt) {onClose(evt)};
+        websocket.onmessage = function(evt) {onMessage(evt)};
+        websocket.onerror = function(evt) {onError(evt)};
+        return websocket
+      }
+      var username = prompt("What is your username?","");
+      while (!username) {
+        username = prompt("What is your username?","");
+      }
+      var session;
+      function onOpen(event) {
+        console.log("websocket opened");
+        var data = {
+          "function": "createSession",
+          "value": username
+        };
+        websocket.send(JSON.stringify(data))
+      }
+
+      function onClose(event) {
+        console.log("websocket closed");
+        alert("You are disconnected from the server :(")
+      }
+
+      function onMessage(event) {
+        //event.data
+        var d = JSON.parse(event.data)
+        if (d["function"] == "sessionId") {
+          session = d["value"]
         }
-        var username = prompt("What is your username?","");
-        while (!username) {
+        else if (d["function"] == "updateBoard") {
+          //TODO
+        }
+        else if (d["function"] == "newMessage") {
+          var msg = d["value"]
+          var user = d["username"]
+          chat.innerHTML = "<p>"+escapeHtml(user)+": "+escapeHtml(msg)+"</p>"+chat.innerHTML;
+        }
+        else if (d["function"] == "userJoined") {
+          var user = d["value"]
+          chat.innerHTML = "<p>"+escapeHtml(user)+" joined!</p>"+chat.innerHTML;
+        }
+        else if (d["function"] == "usererror") {
+          alert(d["value"]);
           username = prompt("What is your username?","");
-        }
-        var session;
-        function onOpen(event) {
-          console.log("websocket opened");
           var data = {
-            "function": "createSession",
+            "function": "joinSession",
+            "sessionId": session,
             "value": username
           };
           websocket.send(JSON.stringify(data))
         }
+      }
 
-        function onClose(event) {
-          console.log("websocket closed");
-          alert("You are disconnected from the server :(")
-        }
+      function onError(event) {
+        //event.data
+      }
 
-        function onMessage(event) {
-          //event.data
-          var d = JSON.parse(event.data)
-          if (d["function"] == "sessionId") {
-            session = d["value"]
-          }
-          else if (d["function"] == "updateBoard") {
-            //TODO
-          }
-          else if (d["function"] == "newMessage") {
-            var msg = d["value"]
-            var user = d["username"]
-          }
-          else if (d["function"] == "usererror") {
-            alert(d["value"]);
-            username = prompt("What is your username?","");
-            var data = {
-              "function": "joinSession",
-              "sessionId": session,
-              "value": username
-            };
-            websocket.send(JSON.stringify(data))
-          }
-        }
-
-        function onError(event) {
-          //event.data
-        }
-
-        window.addEventListener("load", init, false);
+      window.addEventListener("load", init, false);
     </script>
   </head>
   <body>
     <div id="chat">
     </div>
     <script>
+      function escapeHtml(text) {
+        var map = {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      }
+      var chat = document.getElementById("chat");
       var $_GET = (function() {
         var obj = {}
         var split_tokens = location.search.substring(1,location.search.length).split("&")
