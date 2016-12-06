@@ -87,13 +87,6 @@
         }
         return obj
       }());
-      var request;
-      if (window.XMLHttpRequest) {
-        request = new XMLHttpRequest();
-      }
-      else {
-        request = new ActiveXObject("Microsoft.XMLHTTP");
-      }
       var id = $_GET["id"];
       if (!id) {
         //You are the first player
@@ -101,19 +94,6 @@
       }
       else {
         //Either you typed in a random id or you are not the first player
-        request.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            if (this.responseText == "true") {
-              //It exists
-            }
-            else if (this.responseText == "false") {
-              //Random id, you are the first player
-              //Sent id to server todo
-            }
-          }
-        };
-        request.open("POST", "check_ids.py", true); //Send a POST request to "check_ids.py" with the message id.
-        request.send(id);
       }
     </script>
   </body>
