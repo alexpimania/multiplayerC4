@@ -21,7 +21,7 @@
           return websocket
         }
         var username = prompt("What is your username?","");
-
+        var session;
         function onOpen(event) {
           console.log("websocket opened");
           var data = {
@@ -37,6 +37,20 @@
 
         function onMessage(event) {
           //event.data
+          var d = JSON.parse(event.data)
+          if (d["function"] == "sessionId") {
+            session = d["value"]
+          }
+          if (d["function"] == "usererror") {
+            alert(d["value"]);
+            username = prompt("What is your username?","");
+            var data = {
+              "function": "joinSession",
+              "sessionId": session,
+              "value": username
+            };
+            websocket.send(JSON.stringify(data))
+          }
         }
 
         function onError(event) {
