@@ -20,28 +20,29 @@
           websocket.onerror = function(evt) {onError(evt)};
           return websocket
         }
+        var username = prompt("What is your username?","");
 
-        function onOpen(evt) {
+        function onOpen(event) {
           console.log("websocket opened");
-          send("WebSocket rocks");
+          var data = {
+            "function": "createSession",
+            "value": username
+          };
+          websocket.send(JSON.stringify(data))
         }
 
-        function onClose(evt) {
+        function onClose(event) {
           console.log("websocket closed");
         }
 
-        function onMessage(evt) {
-          //evt.data
-          websocket.close();
+        function onMessage(event) {
+          //event.data
         }
 
-        function onError(evt) {
-          //evt.data
+        function onError(event) {
+          //event.data
         }
 
-        function send(message) {
-          websocket.send(message);
-        }
         window.addEventListener("load", init, false);
     </script>
   </head>
