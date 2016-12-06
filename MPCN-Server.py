@@ -10,6 +10,9 @@ PATH = "/home/pimania/MPCN"
 clients = {}
 sessions = {}
 
+def generateId():
+    return hash(time.time())
+
 class WShandler(tornado.websocket.WebSocketHandler):
     def open(self):
         pass
