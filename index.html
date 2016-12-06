@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Connect 4</title>
+    <title>Connect N</title>
     <style>
       .row > .column {
         width: 50;
@@ -21,12 +21,20 @@
           return websocket
         }
         var username = prompt("What is your username?","");
+        while (!username) {
+          username = prompt("What is your username?","");
+        }
+        var password = prompt("What is your password?","");
+        while (!password) {
+          password = prompt("What is your password?","");
+        }
         var session;
         function onOpen(event) {
           console.log("websocket opened");
           var data = {
             "function": "createSession",
-            "value": username
+            "value": username,
+            "password": password //Should encrypt soon
           };
           websocket.send(JSON.stringify(data))
         }
