@@ -20,6 +20,7 @@
         websocket.onerror = function(evt) {onError(evt)};
         return websocket
       }
+      //I think I will use something better than "prompt" soon
       var username = prompt("What is your username?","");
       while (!username) {
         username = prompt("What is your username?","");
@@ -27,13 +28,14 @@
       var session;
       function onOpen(event) {
         console.log("websocket opened");
-        if (!id) {
+        if (!sessionId) {
           //You are the first player
           //Get id from server todo
           var data = {
             "function": "createSession",
             "value": username
           };
+          //Later, add parameters for settings
           websocket.send(JSON.stringify(data))
         }
         else {
