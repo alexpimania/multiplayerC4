@@ -27,11 +27,24 @@
       var session;
       function onOpen(event) {
         console.log("websocket opened");
-        var data = {
-          "function": "createSession",
-          "value": username
-        };
-        websocket.send(JSON.stringify(data))
+        if (!id) {
+          //You are the first player
+          //Get id from server todo
+          var data = {
+            "function": "createSession",
+            "value": username
+          };
+          websocket.send(JSON.stringify(data))
+        }
+        else {
+          //Either you typed in a random id or you are not the first player
+          var data = {
+            "function": "joinSession",
+            "sessionId": sessionId,
+            "value": username
+          };
+          websocket.send(JSON.stringify(data))
+        }
       }
 
       function onClose(event) {
@@ -104,15 +117,8 @@
         }
         return obj
       }());
-      var id = $_GET["id"];
+      var sessionId = $_GET["id"];
       var socket = createWebSocket();
-      if (!id) {
-        //You are the first player
-        //Get id from server todo
-      }
-      else {
-        //Either you typed in a random id or you are not the first player
-      }
     </script>
   </body>
 </html>
